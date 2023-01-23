@@ -3,6 +3,8 @@ package com.tweteroo.api.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,8 +44,8 @@ public class TweetsController {
 
     @GetMapping
     @ResponseStatus(code = HttpStatus.OK)
-    public ResponseEntity<List<Tweet>> listAll() {
-        List<Tweet> tweets = tweetService.findAll();
+    public ResponseEntity<List<Tweet>> listAll(@PageableDefault(page = 0, size = 5) Pageable page) {
+        List<Tweet> tweets = tweetService.findAll(page).getContent();
 
         return ResponseEntity.ok().body(tweets);
     }
