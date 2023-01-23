@@ -23,4 +23,8 @@ public class TweetService {
     public Page<Tweet> findAll(Pageable page) {
         return repository.findAll(page);
     }
+
+    public List<Tweet> findByUsername(String username) {
+        return repository.findByUsername(username);
+    }
 }

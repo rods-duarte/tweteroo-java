@@ -8,6 +8,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,6 +47,14 @@ public class TweetsController {
     @ResponseStatus(code = HttpStatus.OK)
     public ResponseEntity<List<Tweet>> listAll(@PageableDefault(page = 0, size = 5) Pageable page) {
         List<Tweet> tweets = tweetService.findAll(page).getContent();
+
+        return ResponseEntity.ok().body(tweets);
+    }
+
+    @GetMapping("/{username}")
+    @ResponseStatus(code = HttpStatus.OK)
+    public ResponseEntity<List<Tweet>> listByUsername(@PathVariable String username) {
+        List<Tweet> tweets = tweetService.findByUsername(username);
 
         return ResponseEntity.ok().body(tweets);
     }
