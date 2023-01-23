@@ -12,6 +12,18 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
         public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
+            @ExceptionHandler(ResourceNotFoundException.class)
+            public ResponseEntity<Object> handleResourceNotFoundException(
+                ResourceNotFoundException ex
+            ) {
+                List<String> details = new ArrayList<String>();
+                details.add(ex.getMessage());
+
+                ApiErrorMessage apiError = new ApiErrorMessage(HttpStatus.NOT_FOUND, "Resource not found", details);
+
+                return ResponseEntityBuilder.build(apiError);
+            }
+
             @ExceptionHandler(InvalidUserAvatarException.class)
             public ResponseEntity<Object> handleInvalidUserAvatarException(
                 InvalidUserAvatarException ex
@@ -23,18 +35,4 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
                 return ResponseEntityBuilder.build(apiError);
             }
-
-            // @Override
-            // protected ResponseEntity<Object> handleMethodArgumentNotValidException(
-            //     MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request
-            // ) {
-            //     List<String> details = new ArrayList<String>();
-            //     details.add(ex.getMessage());
-
-            //     ApiErrorMessage apiError = new ApiErrorMessage(HttpStatus.UNPROCESSABLE_ENTITY, "Invalid avatar url format", details);
-
-            //     return ResponseEntityBuilder.build(apiError); 
-            // }
-
-            
         }

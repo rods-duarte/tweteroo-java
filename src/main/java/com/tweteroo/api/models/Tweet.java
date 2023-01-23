@@ -1,25 +1,37 @@
 package com.tweteroo.api.models;
 
+import com.tweteroo.api.dto.TweetDTO;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name = "posts")
-public class Post {
+@NoArgsConstructor
+@Table(name = "tweets")
+public class Tweet {
+
+    public Tweet(TweetDTO data, String avatar) {
+        this.text = data.tweet();
+        this.username = data.username();
+        this.avatar = avatar;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
-    private User user;
+    @Column(nullable = false)
+    private String username;
+
+    @Column(nullable = false)
+    private String avatar;
 
     @Column(length = 150, nullable = false)
     private String text;
